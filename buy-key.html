@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Купить ключ - УчебаНа5+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196f3">
+    <style>
+        .pricing-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 0 12px 0 12px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+        
+        .price-period {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .features-list li {
+            padding: 0.5rem 0;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .features-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card.telegram {
+            border-top: 4px solid #0088cc;
+        }
+        
+        .contact-card.whatsapp {
+            border-top: 4px solid #25d366;
+        }
+        
+        .contact-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .contact-link:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .free-key-offer {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .coming-soon {
+            background-color: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>УчебаНа5+</h1>
+                <div class="key-status" id="keyStatus">
+                    <span class="status-badge inactive">Ключ не активирован</span>
+                    <div class="timer" id="timer" style="display: none;">
+                        Осталось: <span id="daysLeft">0</span> дней
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <span class="nav-icon">🧮</span>
+                    <span class="nav-text">Решалка</span>
+                </a>
+                <a href="column-math.html" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Столбик</span>
+                </a>
+                <a href="notes.html" class="nav-link">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Памятки</span>
+                </a>
+                <a href="activate.html" class="nav-link">
+                    <span class="nav-icon">🔑</span>
+                    <span class="nav-text">Ключ</span>
+                </a>
+            </nav>
+            
+            <button id="themeToggle" class="theme-toggle">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </header>
+
+        <main class="main-content">
+            <div class="pricing-container">
+                <div class="hero-section">
+                    <div class="hero-icon">🔑</div>
+                    <h1>Полный доступ к УчебаНа5+</h1>
+                    <p class="subtitle" style="color: rgba(255, 255, 255, 0.9);">
+                        Активируйте ключ и получите все функции приложения на 10 дней
+                    </p>
+                </div>
+                
+                <div class="free-key-offer">
+                    <h3>🎁 Акция: 1 пользователю 1 ключ бесплатно!</h3>
+                    <p>Для получения бесплатного ключа напишите в Telegram или WhatsApp с сообщением "Хочу бесплатный ключ УчебаНа5+"</p>
+                </div>
+                
+                <div class="coming-soon">
+                    <h3>🚀 Скоро ГДЗ оффлайн!</h3>
+                    <p>Мы работаем над добавлением полной базы ГДЗ, которая будет работать без интернета. Следите за обновлениями!</p>
+                </div>
+                
+                <h2 class="section-title">Тарифы</h2>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <div class="popular-badge">Популярный</div>
+                        <h3>Базовый доступ</h3>
+                        <div class="price">Бесплатно</div>
+                        <div class="price-period">10 дней тестирования</div>
+                        
+                        <ul class="features-list">
+                            <li>Решалка уравнений</li>
+                            <li>Математика в столбик</li>
+                            <li>Памятки с фото</li>
+                            <li>Оффлайн работа</li>
+                            <li>Темная/светлая тема</li>
+                            <li>Поддержка PWA</li>
+                        </ul>
+                        
+                        <a href="activate.html" class="contact-link">
+                            Получить бесплатный ключ
+                        </a>
+                    </div>
+                    
+                    <div class="pricing-card popular">
+                        <h3>Полный доступ</h3>
+                        <div class="price">299 ₽</div>
+                        <div class="price-period">на 10 дней</div>
+                        
+                        <ul class="features-list">
+                            <li>Все функции бесплатного тарифа</li>
+                            <li>Приоритетная поддержка</li>
+                            <li>Ранний доступ к новым функциям</li>
+                            <li>Уведомления об обновлениях</li>
+                            <li>Расширенная история решений</li>
+                            <li>Без рекламы</li>
+                        </ul>
+                        
+                        <p style="color: var(--text-secondary); font-size: 0.875rem;">
+                            Напишите нам для покупки ключа
+                        </p>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Как получить ключ</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Напишите нам</h4>
+                        <p>В Telegram или WhatsApp</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Получите ключ</h4>
+                        <p>Мы вышлем ключ доступа</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Активируйте</h4>
+                        <p>Введите ключ в приложении</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>Наслаждайтесь</h4>
+                        <p>10 дней полного доступа</p>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Свяжитесь с нами</h2>
+                <div class="contact-methods">
+                    <div class="contact-card telegram">
+                        <div class="contact-icon">📱</div>
+                        <h3>Telegram</h3>
+                        <p>Быстрая связь, отвечаем 24/7</p>
+                        <a href="https://t.me/west_next" target="_blank" class="contact-link">
+                            @west_next
+                        </a>
+                    </div>
+                    
+                    <div class="contact-card whatsapp">
+                        <div class="contact-icon">💬</div>
+                        <h3>WhatsApp</h3>
+                        <p>Звонки и сообщения</p>
+                        <a href="https://wa.me/79695356936" target="_blank" class="contact-link">
+                            +7 969 535-69-36
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Что вы получаете:</h3>
+                    <ul>
+                        <li><strong>Ключ доступа</strong> - уникальный код для активации</li>
+                        <li><strong>10 дней полного доступа</strong> - ко всем функциям приложения</li>
+                        <li><strong>Оффлайн работу</strong> - все функции доступны без интернета</li>
+                        <li><strong>Поддержку</strong> - помощь в использовании приложения</li>
+                        <li><strong>Обновления</strong> - доступ к новым функциям</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 2rem;">Важно знать:</h3>
+                    <ul>
+                        <li>Ключ активируется только 1 раз на 1 устройстве</li>
+                        <li>После активации идет отсчет 10 дней</li>
+                        <li>При обновлении страницы таймер не сбрасывается</li>
+                        <li>Все данные хранятся локально на вашем устройстве</li>
+                        <li>Приложение не требует регистрации</li>
+                    </ul>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="activate.html" class="btn btn-primary">
+                        🔙 Вернуться к активации
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2024 УчебаНа5+ | Контакты: Telegram @west_next | WhatsApp +79695356936</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="key-system.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkKeyStatus();
+            setInterval(checkKeyStatus, 1000);
+        });
+    </script>
+</body>
+</html>
