@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Активация ключа - УчебаНа5+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196f3">
+    <style>
+        .activation-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .key-status-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .key-status-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timer-large {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .timer-units {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .timer-unit {
+            text-align: center;
+        }
+        
+        .timer-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .timer-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .activation-form {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .key-examples {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        
+        .key-examples h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .key-example {
+            font-family: monospace;
+            padding: 0.25rem 0.5rem;
+            background-color: var(--bg-primary);
+            border-radius: 4px;
+            margin: 0.25rem;
+            display: inline-block;
+            font-size: 0.875rem;
+        }
+        
+        .device-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .test-keys {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(255, 152, 0, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .test-keys h4 {
+            color: var(--warning-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>УчебаНа5+</h1>
+                <div class="key-status" id="keyStatus">
+                    <span class="status-badge inactive">Ключ не активирован</span>
+                    <div class="timer" id="timer" style="display: none;">
+                        Осталось: <span id="daysLeft">0</span> дней
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <span class="nav-icon">🧮</span>
+                    <span class="nav-text">Решалка</span>
+                </a>
+                <a href="column-math.html" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Столбик</span>
+                </a>
+                <a href="notes.html" class="nav-link">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Памятки</span>
+                </a>
+                <a href="activate.html" class="nav-link active">
+                    <span class="nav-icon">🔑</span>
+                    <span class="nav-text">Ключ</span>
+                </a>
+            </nav>
+            
+            <button id="themeToggle" class="theme-toggle">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </header>
+
+        <main class="main-content">
+            <div class="activation-container">
+                <div class="key-status-card">
+                    <div class="key-status-icon" id="statusIcon">🔓</div>
+                    <h2 id="statusTitle">Доступ не активирован</h2>
+                    <div id="statusDescription">
+                        <p>Для доступа ко всем функциям активируйте ключ</p>
+                    </div>
+                    <div id="timerContainer" style="display: none;">
+                        <div class="timer-large">
+                            <span id="largeTimer">10:00:00:00</span>
+                        </div>
+                        <div class="timer-units">
+                            <div class="timer-unit">
+                                <div class="timer-value" id="timerDays">10</div>
+                                <div class="timer-label">дней</div>
+                            </div>
+                            <div class="timer-unit">
+                                <div class="timer-value" id="timerHours">00</div>
+                                <div class="timer-label">часов</div>
+                            </div>
+                            <div class="timer-unit">
+                                <div class="timer-value" id="timerMinutes">00</div>
+                                <div class="timer-label">минут</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activation-form">
+                    <h2 class="section-title">Активация ключа</h2>
+                    <p class="form-description">
+                        Введите ключ доступа в формате UCH-NA5-XXX-999
+                    </p>
+                    
+                    <form id="activateForm">
+                        <div class="form-group">
+                            <label for="keyInput" class="form-label">Ключ доступа:</label>
+                            <input type="text" 
+                                   id="keyInput" 
+                                   class="form-input"
+                                   placeholder="UCH-NA5-SUN-723"
+                                   maxlength="16">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            🔑 Активировать ключ
+                        </button>
+                    </form>
+                    
+                    <div id="message" class="error-message" style="display: none; margin-top: 1rem;"></div>
+                    
+                    <div class="test-keys">
+                        <h4>Тестовые ключи:</h4>
+                        <p>Для тестирования используйте:</p>
+                        <div>
+                            <span class="key-example">UCH-NA5-SUN-723</span>
+                            <span class="key-example">UCH-NA5-MOON-841</span>
+                            <span class="key-example">UCH-NA5-STAR-309</span>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                            Ключ работает 10 дней и активируется 1 раз на 1 устройстве
+                        </p>
+                    </div>
+                    
+                    <div class="key-examples">
+                        <h4>Формат ключа:</h4>
+                        <p>UCH-NA5-XXX-999 где:</p>
+                        <ul style="margin: 0.5rem 0 0.5rem 1rem; color: var(--text-secondary);">
+                            <li>UCH-NA5 - префикс</li>
+                            <li>XXX - слово из 3-4 букв (SUN, MOON, STAR)</li>
+                            <li>999 - 3 цифры</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="device-info">
+                        <p><strong>ID вашего устройства:</strong></p>
+                        <code id="deviceId" style="font-size: 0.75rem; word-break: break-all;"></code>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            Ключ привязывается к этому устройству и не может быть использован повторно
+                        </p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="buy-key.html" class="btn btn-secondary">
+                            🛒 Купить ключ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2024 УчебаНа5+ | Система активации</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="key-system.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Отображаем ID устройства
+            const deviceId = localStorage.getItem('device_id') || 'Не определен';
+            document.getElementById('deviceId').textContent = deviceId;
+            
+            // Обновляем статус каждую секунду
+            function updateActivationStatus() {
+                const keySystem = window.keySystem || new KeySystem();
+                const isActive = keySystem.checkKeyStatus();
+                const timeLeft = keySystem.getTimeLeft();
+                
+                const statusIcon = document.getElementById('statusIcon');
+                const statusTitle = document.getElementById('statusTitle');
+                const statusDescription = document.getElementById('statusDescription');
+                const timerContainer = document.getElementById('timerContainer');
+                
+                if (isActive && timeLeft) {
+                    // Ключ активен
+                    statusIcon.textContent = '🔐';
+                    statusTitle.textContent = 'Доступ активирован';
+                    statusDescription.innerHTML = `
+                        <p>У вас есть доступ ко всем функциям приложения</p>
+                    `;
+                    
+                    timerContainer.style.display = 'block';
+                    
+                    // Обновляем таймер
+                    document.getElementById('timerDays').textContent = 
+                        timeLeft.days.toString().padStart(2, '0');
+                    document.getElementById('timerHours').textContent = 
+                        timeLeft.hours.toString().padStart(2, '0');
+                    document.getElementById('timerMinutes').textContent = 
+                        timeLeft.minutes.toString().padStart(2, '0');
+                    
+                    const totalSeconds = timeLeft.totalSeconds;
+                    const days = Math.floor(totalSeconds / 86400);
+                    const hours = Math.floor((totalSeconds % 86400) / 3600);
+                    const minutes = Math.floor((totalSeconds % 3600) / 60);
+                    const seconds = totalSeconds % 60;
+                    
+                    document.getElementById('largeTimer').textContent = 
+                        `${days.toString().padStart(2, '0')}:` +
+                        `${hours.toString().padStart(2, '0')}:` +
+                        `${minutes.toString().padStart(2, '0')}:` +
+                        `${seconds.toString().padStart(2, '0')}`;
+                    
+                } else {
+                    // Ключ не активен
+                    statusIcon.textContent = '🔓';
+                    statusTitle.textContent = 'Доступ не активирован';
+                    statusDescription.innerHTML = `
+                        <p>Для доступа ко всем функциям активируйте ключ</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.9;">
+                            Доступ предоставляется на 10 дней
+                        </p>
+                    `;
+                    timerContainer.style.display = 'none';
+                }
+            }
+            
+            // Обновляем статус каждую секунду
+            updateActivationStatus();
+            setInterval(updateActivationStatus, 1000);
+            
+            // Обновляем общий статус ключа
+            checkKeyStatus();
+            setInterval(checkKeyStatus, 1000);
+        });
+    </script>
+</body>
+</html>
