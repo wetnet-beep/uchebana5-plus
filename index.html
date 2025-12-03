@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УчебаНа5+ - Решалка уравнений</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196f3">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка с навигацией -->
+        <header class="header">
+            <div class="logo">
+                <h1>УчебаНа5+</h1>
+                <div class="key-status" id="keyStatus">
+                    <span class="status-badge inactive">Ключ не активирован</span>
+                    <div class="timer" id="timer" style="display: none;">
+                        Осталось: <span id="daysLeft">0</span> дней
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">
+                    <span class="nav-icon">🧮</span>
+                    <span class="nav-text">Решалка</span>
+                </a>
+                <a href="column-math.html" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Столбик</span>
+                </a>
+                <a href="notes.html" class="nav-link">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Памятки</span>
+                </a>
+                <a href="activate.html" class="nav-link">
+                    <span class="nav-icon">🔑</span>
+                    <span class="nav-text">Ключ</span>
+                </a>
+            </nav>
+            
+            <button id="themeToggle" class="theme-toggle">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <section class="equation-solver">
+                <h2>Решалка уравнений</h2>
+                <p class="subtitle">Решает линейные уравнения с переменными (x, y, z)</p>
+                
+                <div class="input-group">
+                    <input type="text" 
+                           id="equationInput" 
+                           placeholder="Введите уравнение, например: 2x + 5 = 15"
+                           class="equation-input">
+                    <button id="solveBtn" class="btn btn-primary">
+                        Решить
+                    </button>
+                </div>
+                
+                <div class="examples">
+                    <p>Примеры:</p>
+                    <div class="example-buttons">
+                        <button class="example-btn" data-eq="2x + 5 = 15">2x + 5 = 15</button>
+                        <button class="example-btn" data-eq="3(x - 4) = 21">3(x - 4) = 21</button>
+                        <button class="example-btn" data-eq="12x + 9x + 100 = 21100">12x + 9x + 100 = 21100</button>
+                    </div>
+                </div>
+                
+                <div id="solutionSteps" class="solution-steps" style="display: none;">
+                    <h3>Шаги решения:</h3>
+                    <div id="stepsContainer"></div>
+                    <div class="result">
+                        <strong>Ответ:</strong> <span id="finalAnswer"></span>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+            </section>
+            
+            <section class="info-section">
+                <div class="info-card">
+                    <h3>Поддерживаются:</h3>
+                    <ul>
+                        <li>Линейные уравнения</li>
+                        <li>Переменные x, y, z, X, Y, Z</li>
+                        <li>Несколько переменных: 6x+2x+97=1561</li>
+                        <li>Скобки</li>
+                        <li>Дробные коэффициенты</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2024 УчебаНа5+ | PWA приложение для учебы</p>
+            <p>Связь: Telegram @west_next | WhatsApp +79695356936</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="equation-solver.js"></script>
+    <script src="key-system.js"></script>
+    <script>
+        // Регистрация Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker зарегистрирован:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Ошибка регистрации Service Worker:', error);
+                    });
+            });
+        }
+        
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', () => {
+            // Проверка ключа при загрузке
+            checkKeyStatus();
+            
+            // Обновляем таймер каждую секунду
+            setInterval(checkKeyStatus, 1000);
+        });
+    </script>
+</body>
+</html>
